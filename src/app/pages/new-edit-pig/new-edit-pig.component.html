@@ -1,0 +1,146 @@
+<form [formGroup]="form">
+  <div class="card">
+    <h1>Enter information of the pig you found below: </h1>
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-4">
+        <label for="pid">Pid</label>
+        <p-inputNumber id="pid"
+                       formControlName="pid"
+                       class="w-full"></p-inputNumber>
+
+        <ul *ngIf="(form.controls['pid'].dirty || form.controls['pid'].touched)" class="form-errors">
+          <li *ngIf="form.controls['pid'].errors?.['required']">Pid is required</li>
+        </ul>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="name">Your Name</label>
+        <input id="name"
+               formControlName="name"
+               type="text" pInputText class="w-full">
+
+        <ul *ngIf="(form.controls['name'].dirty || form.controls['name'].touched)" class="form-errors">
+          <li *ngIf="form.controls['name'].errors?.['required']">Name is required</li>
+          <li *ngIf="form.controls['name'].errors?.['minlength']">
+            Name must contains at least 3 characters
+          </li>
+          <li *ngIf="form.controls['name'].errors?.['maxlength']">
+            Name must contains at most 50 characters
+          </li>
+        </ul>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="Phone">Phone</label>
+        <input id="Phone"
+               formControlName="phone"
+               pInputText class="w-full"/>
+
+        <ul *ngIf="(form.controls['phone'].dirty || form.controls['phone'].touched)" class="form-errors">
+          <li *ngIf="form.controls['phone'].errors?.['required']">Phone number is required</li>
+          <li *ngIf="form.controls['phone'].errors?.['pattern']">Phone number format is wrong</li>
+          <li *ngIf="form.controls['phone'].errors?.['minlength'] || form.controls['phone'].errors?.['minlength']">
+            Phone number must be 10 digits
+          </li>
+        </ul>
+      </div>
+
+
+      <div class="field col-12 md:col-4">
+        <label for="breed">Breed</label>
+        <p-dropdown id="breed" [options]="breedList"
+                    formControlName="breed"></p-dropdown>
+
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="time">Time</label>
+        <p-calendar id="time" formControlName="time"
+                    class="w-full"
+                    [showTime]="true"
+                    hourFormat="24"></p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="locationName" class="flex justify-content-between">Location Name
+          <span (click)="showAddressDialog = true" class="add-address">
+            <span class="inline-block mr-1 cursor-pointer">Add</span>
+            <i class="pi pi-plus"></i>
+          </span>
+
+        </label>
+
+        <p-dropdown id="locationName" [options]="addressList"
+                    formControlName="locationName"></p-dropdown>
+      </div>
+
+      <div class="field col-12">
+        <label for="locationName">Note</label>
+        <textarea id="note" formControlName="note"
+                  [rows]="3" [cols]="30" pInputTextarea
+                  [autoResize]="true"></textarea>
+      </div>
+
+      <div *ngIf="authorized" class="field col-12">
+        <label for="status">Status</label>
+        <p-dropdown id="status" [options]="statusList"
+                    formControlName="status"></p-dropdown>
+      </div>
+
+    </div>
+
+    <div class="formgrid grid">
+
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <mgl-map #map
+                 [style]="'mapbox://styles/mapbox/streets-v9'"
+                 [zoom]="[mapZoom]"
+                 (drag)="setCenter($event)"
+                 (zoomEnd)="setCenter($event)"
+                 (load)="loadMap($event)"
+                 [center]="mapCenter">
+          <mgl-control mglNavigation></mgl-control>
+          <mgl-marker [lngLat]="markerPosition"></mgl-marker>
+        </mgl-map>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <p-button (click)="submit()" icon="pi pi-check" iconPos="right" label="Submit"></p-button>
+        <p-button routerLink="/" icon="pi pi-replay" class="mx-2" iconPos="right" label="Back"></p-button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<p-dialog [(visible)]="showAddressDialog" styleClass="modal-content"
+          [modal]="true"
+          [dismissableMask]="true"
+          [closable]="true"
+          [draggable]="false"
+          [resizable]="false">
+  <div class="grid align-items-end">
+    <div class="field col-12 md:col-8">
+      <label for="Address">New Location Name</label>
+      <input id="Address"
+             [(ngModel)]="newAddress"
+             pInputText class="w-full"/>
+    </div>
+
+
+    <div class="field col-12 md:col-4">
+      <p-button (click)="addNewAddress()"
+                id="add-address-button"
+                icon="pi pi-plus" iconPos="right"
+                label="Add"
+                styleClass="p-button-sm"></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-toast position="top-center"></p-toast>

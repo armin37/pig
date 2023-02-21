@@ -1,0 +1,47 @@
+::ng-deep html {
+  background: #f5f5f5;
+}
+
+.card {
+  max-width: 800px;
+  margin: auto;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 1.7rem;
+}
+
+.form-errors {
+  padding: 0 4px;
+  position: absolute;
+  margin: 0.2rem 0;
+}
+
+li {
+  list-style-type: none;
+  color: #ee5544;
+  font-size: 0.8rem;
+
+  &:before {
+    content: '*';
+    width: 10px;
+    height: 10px;
+    position: relative;
+    left: -4px;
+    top: 2px;
+  }
+
+  &:not(:first-child) {
+    display: none;
+  }
+}
+
+.add-address {
+  color: #478bdc;
+}
+
+mgl-map {
+  height: 300px;
+  width: 100%;
+}

@@ -1,0 +1,90 @@
+<div class="card w-11 mx-auto">
+  <div class="flex align-items-center justify-content-between">
+    <h1>Reported Pigs</h1>
+
+    <p-button routerLink="/map"
+              icon="pi pi-map-marker" iconPos="right"
+              label="Show on map"
+              class="ml-auto mr-2"
+              styleClass="p-button-sm"></p-button>
+
+    <p-button routerLink="/pig"
+              icon="pi pi-plus" iconPos="right"
+              label="Add"
+              styleClass="p-button-sm"></p-button>
+  </div>
+  <p-table [value]="pigsList">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="pid" style="width:10%">Pid
+          <p-sortIcon field="pid"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="name" style="width:15%">Reporter
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="breed" style="width:15%">Breed
+          <p-sortIcon field="breed"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="location.locationName" style="width:15%">Location Name
+          <p-sortIcon field="location.locationName"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="time" style="width:20%">Time
+          <p-sortIcon field="time"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="status" style="width:10%">Time
+          <p-sortIcon field="status"></p-sortIcon>
+        </th>
+
+        <th style="width:15%">Operations</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-report>
+      <tr>
+        <td>{{report.pid}}</td>
+        <td>{{report.name}}</td>
+        <td>{{report.breed}}</td>
+        <td>{{report.location.locationName}}</td>
+        <td>{{report.time}}</td>
+        <td>{{report.status}}</td>
+        <td>
+          <span (click)="showPasswordDialog = true; mod = 'edit'; selectedReportId = report.id"
+                class="cursor-pointer edit inline-block mx-2">EDIT</span>
+
+          <span (click)="showPasswordDialog = true; mod = 'delete'; selectedReportId = report.id"
+                class="cursor-pointer delete inline-block">DELETE</span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+
+<p-dialog [(visible)]="showPasswordDialog" styleClass="modal-content"
+          [modal]="true"
+          [dismissableMask]="true"
+          [closable]="true"
+          [draggable]="false"
+          [resizable]="false">
+  <div class="grid align-items-end">
+    <div class="field col-12 md:col-8">
+      <label for="password">Enter Password</label>
+      <input id="password"
+             [(ngModel)]="password"
+             pInputText class="w-full"/>
+    </div>
+
+    <div class="field col-12 md:col-4">
+      <p-button (click)="editDeleteReport()"
+                label="Submit"
+                styleClass="p-button-sm"></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-toast position="top-center"></p-toast>
+

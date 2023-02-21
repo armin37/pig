@@ -1,0 +1,10 @@
+<mgl-map #map
+         [style]="'mapbox://styles/mapbox/streets-v9'"
+         [zoom]="[12]"
+         (load)="loadMap($event)"
+         [center]="mapCenter">
+  <mgl-control mglNavigation></mgl-control>
+  <mgl-marker *ngFor="let report of reports"
+              [lngLat]="{lon: report.location.longitude, lat: report.location.latitude}">
+  </mgl-marker>
+</mgl-map>

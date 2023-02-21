@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.p-inputnumber, .p-inputtext, .p-dropdown, .p-calendar {
+  width: 100%;
+
+  &.p-inputtext, input {
+    padding: 0.4rem 0.4rem 0.5rem;
+  }
+}
+
+.p-button {
+  &.p-button-sm {
+    padding: 0.5rem 1.1rem !important;
+  }
+}
